@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: 1.16.0
+description: Assisted Service is used to orchestrate baremetal OpenShift installations.
+name: assisted-service
+type: application
+version: 2.3.0

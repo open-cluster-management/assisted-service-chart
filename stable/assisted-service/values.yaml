@@ -1,0 +1,10 @@
+global:
+  imageOverrides:
+    assisted_service: ''
+  pullPolicy: Always
+  pullSecret: null
+hubconfig:
+  nodeSelector: null
+  proxyConfigs: {}
+  replicaCount: 1
+org: open-cluster-management
