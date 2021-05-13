@@ -4,6 +4,7 @@ CHART_NAME=assisted-service
 VERSION ?= "2.3.0"
 
 regenerate-chart:
+	echo "Regenerating helm chart ..."
 	rm -rf stable/$(CHART_NAME)
 	python3 -m pip install -r autogen-chart/requirements.txt
 	python3 autogen-chart/csv-to-helm-chart.py --destination .
