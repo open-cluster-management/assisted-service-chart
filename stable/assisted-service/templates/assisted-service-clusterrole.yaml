@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: '{{ .Values.org }}:{{ .Release.Name }}:default'
+  name: '{{ .Values.org }}:{{ .Release.Name }}:assisted-service'
 rules:
 - apiGroups:
   - ''
@@ -51,24 +51,20 @@ rules:
   - get
   - list
 - apiGroups:
-  - ''
-  resourceNames:
-  - assisted-service-leader-election-helper
-  - assisted-service-migration-helper
-  - assisted-service-baseiso-helper
-  resources:
-  - configmaps
-  verbs:
-  - get
-  - update
-  - delete
-- apiGroups:
   - route.openshift.io
   resources:
   - routes
   verbs:
   - create
   - get
+- apiGroups:
+  - ''
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
 - apiGroups:
   - ''
   resources:
@@ -98,6 +94,12 @@ rules:
   - patch
   - update
   - watch
+- apiGroups:
+  - agent-install.openshift.io
+  resources:
+  - agents/ai-deprovision
+  verbs:
+  - update
 - apiGroups:
   - agent-install.openshift.io
   resources:
@@ -175,6 +177,18 @@ rules:
 - apiGroups:
   - ''
   resources:
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ''
+  resources:
   - persistentvolumeclaims
   verbs:
   - create
@@ -209,6 +223,26 @@ rules:
   - update
   - watch
 - apiGroups:
+  - extensions.hive.openshift.io
+  resources:
+  - agentclusterinstalls
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - extensions.hive.openshift.io
+  resources:
+  - agentclusterinstalls/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
   - hive.openshift.io
   resources:
   - clusterdeployments
@@ -235,6 +269,14 @@ rules:
   - patch
   - update
 - apiGroups:
+  - hive.openshift.io
+  resources:
+  - clusterimagesets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
   - metal3.io
   resources:
   - baremetalhosts
@@ -256,15 +298,3 @@ rules:
   - patch
   - update
   - watch
-- apiGroups:
-  - authentication.k8s.io
-  resources:
-  - tokenreviews
-  verbs:
-  - create
-- apiGroups:
-  - authorization.k8s.io
-  resources:
-  - subjectaccessreviews
-  verbs:
-  - create
