@@ -241,6 +241,44 @@ def findTemplatesOfType(helmChart, kind):
             continue
     return resources
 
+def fixEnvVarImageReferences(helmChart, imageKeyMapping):
+    logging.info("Fixing image references in container 'env' section in deployments and values.yaml ...")
+    valuesYaml = os.path.join(helmChart, "values.yaml")
+    with open(valuesYaml, 'r') as f:
+        values = yaml.safe_load(f)
+    deployments = findTemplatesOfType(helmChart, 'Deployment')
+
+    imageKeys = []
+    for deployment in deployments:
+        with open(deployment, 'r') as f:
+            deploy = yaml.safe_load(f)
+        
+        containers = deploy['spec']['template']['spec']['containers']
+        for container in containers:
+            if 'env' not in container: 
+                continue
+            
+            for env in container['env']:
+                image_key = env['name']
+                if image_key.endswith('_IMAGE') == False:
+                    continue
+                image_key = parse_image_ref(env['value'])['repository']
+                try:
+                    image_key = imageKeyMapping[image_key]
+                except KeyError:
+                    logging.critical("No image key mapping provided for imageKey: %s" % image_key)
+                    exit(1)
+                imageKeys.append(image_key)
+                env['value'] = "{{ .Values.global.imageOverrides." + image_key + " }}"
+        with open(deployment, 'w') as f:
+            yaml.dump(deploy, f)
+
+    for imageKey in imageKeys:
+        values['global']['imageOverrides'][imageKey] = ""
+    with open(valuesYaml, 'w') as f:
+        yaml.dump(values, f)
+    logging.info("Image container env references in deployments and values.yaml updated successfully.\n")
+
 def fixImageReferences(helmChart, imageKeyMapping):
     logging.info("Fixing image and pull policy references in deployments and values.yaml ...")
     valuesYaml = os.path.join(helmChart, "values.yaml")
@@ -262,7 +300,6 @@ def fixImageReferences(helmChart, imageKeyMapping):
             except KeyError:
                 logging.critical("No image key mapping provided for imageKey: %s" % image_key)
                 exit(1)
-            image_key = image_key.replace('-', '_')
             imageKeys.append(image_key)
             container['image'] = "{{ .Values.global.imageOverrides." + image_key + " }}"
             container['imagePullPolicy'] = "{{ .Values.global.pullPolicy }}"
@@ -368,6 +405,7 @@ def updateRBAC(helmChart):
 def injectRequirements(helmChart, imageKeyMapping):
     logging.info("Updating Helm chart '%s' with onboarding requirements ...", helmChart)
     fixImageReferences(helmChart, imageKeyMapping)
+    fixEnvVarImageReferences(helmChart, imageKeyMapping)
     updateRBAC(helmChart)
     updateDeployments(helmChart)
     logging.info("Updated Chart '%s' successfully\n", helmChart)

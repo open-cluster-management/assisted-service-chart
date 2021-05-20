@@ -50,15 +50,15 @@ spec:
           value: {{ .Values.hubconfig.proxyConfigs.NO_PROXY }}
 {{- end }}
         - name: SERVICE_IMAGE
-          value: quay.io/ocpmetal/assisted-service@sha256:57a1b9ab95d576b2ce63b6960a8b50d0325c0813934a56e8d6b67fc4065e644f
+          value: '{{ .Values.global.imageOverrides.assisted_service }}'
         - name: DATABASE_IMAGE
-          value: quay.io/ocpmetal/postgresql-12-centos7@sha256:94727d70e0afbf4e167e078744f3a10ac9d82edc553d57b0ecbb5443264f07e1
+          value: '{{ .Values.global.imageOverrides.postgresql_12_centos7 }}'
         - name: AGENT_IMAGE
-          value: quay.io/ocpmetal/assisted-installer-agent@sha256:560acb3c567f945c5aa9d4c2699838dda1eddd8ce0f4219f9b94fda7f043e111
+          value: '{{ .Values.global.imageOverrides.assisted_installer_agent }}'
         - name: CONTROLLER_IMAGE
-          value: quay.io/ocpmetal/assisted-installer-controller@sha256:0d063fb00074afc3cec3ac39a586ce0d4556495b9eb5f7f340cb5958b2ca853b
+          value: '{{ .Values.global.imageOverrides.assisted_installer_controller }}'
         - name: INSTALLER_IMAGE
-          value: quay.io/ocpmetal/assisted-installer@sha256:e87fed8ce4d0db2bdedc200a6f6b56601da2acfcf5b13d0021b0baba2d26bf07
+          value: '{{ .Values.global.imageOverrides.assisted_installer }}'
         - name: OPENSHIFT_VERSIONS
           value: '{"4.6":{"display_name":"4.6.16","release_version":"4.6.16","release_image":"quay.io/openshift-release-dev/ocp-release:4.6.16-x86_64","rhcos_image":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.6/4.6.8/rhcos-4.6.8-x86_64-live.x86_64.iso","rhcos_rootfs":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.6/4.6.8/rhcos-live-rootfs.x86_64.img","rhcos_version":"46.82.202012051820-0","support_level":"production"},"4.7":{"display_name":"4.7.9","release_version":"4.7.9","release_image":"quay.io/openshift-release-dev/ocp-release:4.7.9-x86_64","rhcos_image":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.7/4.7.7/rhcos-4.7.7-x86_64-live.x86_64.iso","rhcos_rootfs":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.7/4.7.7/rhcos-live-rootfs.x86_64.img","rhcos_version":"47.83.202103251640-0","support_level":"production","default":true},"4.8":{"display_name":"4.8.0-fc.3","release_version":"4.8.0-fc.3","release_image":"quay.io/openshift-release-dev/ocp-release:4.8.0-fc.3-x86_64","rhcos_image":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/pre-release/4.8.0-fc.3/rhcos-4.8.0-fc.3-x86_64-live.x86_64.iso","rhcos_rootfs":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/pre-release/4.8.0-fc.3/rhcos-live-rootfs.x86_64.img","rhcos_version":"48.84.202105062123-0","support_level":"beta"}}'
         - name: SERVICE_ACCOUNT_NAME
