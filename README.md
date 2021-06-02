@@ -41,6 +41,6 @@ helm lint stable/assisted-service
 
 ```bash
 ❯ make install
-helm install "assisted-service" stable/assisted-service --version 2.3.0 
+helm install "assisted-service" stable/assisted-service --version 2.3.0
 ...
 ```
