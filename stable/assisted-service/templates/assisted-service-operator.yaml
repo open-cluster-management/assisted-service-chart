@@ -52,7 +52,7 @@ spec:
         - name: SERVICE_IMAGE
           value: '{{ .Values.global.imageOverrides.assisted_service }}'
         - name: DATABASE_IMAGE
-          value: '{{ .Values.global.imageOverrides.postgresql_12_centos7 }}'
+          value: '{{ .Values.global.imageOverrides.postgresql_12 }}'
         - name: AGENT_IMAGE
           value: '{{ .Values.global.imageOverrides.assisted_installer_agent }}'
         - name: CONTROLLER_IMAGE

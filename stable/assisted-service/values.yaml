@@ -4,7 +4,7 @@ global:
     assisted_installer_agent: ''
     assisted_installer_controller: ''
     assisted_service: ''
-    postgresql_12_centos7: ''
+    postgresql_12: ''
   pullPolicy: Always
   pullSecret: null
 hubconfig:
