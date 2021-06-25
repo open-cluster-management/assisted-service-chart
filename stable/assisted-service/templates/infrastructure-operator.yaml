@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: assisted-service-operator
+  name: infrastructure-operator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      control-plane: assisted-service-operator
+      control-plane: infrastructure-operator
   strategy: {}
   template:
     metadata:
       labels:
-        control-plane: assisted-service-operator
-        ocm-antiaffinity-selector: assisted-service-operator
+        control-plane: infrastructure-operator
+        ocm-antiaffinity-selector: infrastructure-operator
     spec:
       affinity:
         podAntiAffinity:
@@ -23,7 +23,7 @@ spec:
                 - key: ocm-antiaffinity-selector
                   operator: In
                   values:
-                  - assisted-service-operator
+                  - infrastructure-operator
               topologyKey: topology.kubernetes.io/zone
             weight: 70
           - podAffinityTerm:
@@ -32,7 +32,7 @@ spec:
                 - key: ocm-antiaffinity-selector
                   operator: In
                   values:
-                  - assisted-service-operator
+                  - infrastructure-operator
               topologyKey: kubernetes.io/hostname
             weight: 35
       containers:
