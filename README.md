@@ -29,6 +29,7 @@ helm template stable/assisted-service
 helm package stable/assisted-service --version 2.3.0
 ...
 ```
+
 ### make lint
 
 ```bash
