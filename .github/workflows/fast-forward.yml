@@ -4,7 +4,7 @@ name: Push commits to current release branch
 on:
   push:
     branches:
-    - master
+    - main
 
 jobs:
   fast-forward:
@@ -13,7 +13,7 @@ jobs:
     - name: Fast-Forward Release
       uses: JakobGray/branch-fast-forward@v0.1.0
       with:
-        main_branch: 'master'
+        main_branch: 'main'
         ff_branch: 'release-2.3'
         push_token: 'FF_TOKEN'
       env:
