@@ -1,9 +1,9 @@
 - repo_name: "community-operators"
-  github_ref: "https://github.com/operator-framework/community-operators.git"
+  github_ref: "https://github.com/redhat-openshift-ecosystem/community-operators-prod.git"
   operators:
     - name: "assisted-service"
       channel: "ocm-2.3"
-      package-yml: "community-operators/assisted-service-operator/assisted-service.package.yaml"
+      package-yml: "operators/assisted-service-operator/assisted-service.package.yaml"
       imageMappings:
         assisted-service: assisted_service
         postgresql-12-centos7: postgresql_12
