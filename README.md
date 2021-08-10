@@ -26,7 +26,7 @@ helm template stable/assisted-service
 
 ```bash
 ❯ make package
-helm package stable/assisted-service --version 2.3.0
+helm package stable/assisted-service --version 2.4.0
 ...
 ```
 
@@ -42,6 +42,6 @@ helm lint stable/assisted-service
 
 ```bash
 ❯ make install
-helm install "assisted-service" stable/assisted-service --version 2.3.0
+helm install "assisted-service" stable/assisted-service --version 2.4.0
 ...
 ```
