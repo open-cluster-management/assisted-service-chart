@@ -213,6 +213,18 @@ rules:
 - apiGroups:
   - ''
   resources:
+  - serviceaccounts
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ''
+  resources:
   - services
   verbs:
   - create
@@ -287,6 +299,18 @@ rules:
   resources:
   - baremetalhosts
   verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - servicemonitors
+  verbs:
+  - create
+  - delete
   - get
   - list
   - patch
