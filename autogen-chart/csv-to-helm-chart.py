@@ -314,7 +314,7 @@ def fixImageReferences(helmChart, imageKeyMapping):
     logging.info("Image references and pull policy in deployments and values.yaml updated successfully.\n")
 
 def injectHelmFlowControl(deployment):
-    logging.info("Adding Helm flow control for NodeSelector and Proxy Overrides ...")
+    logging.info("Adding Helm flow control for NodeSelector, ImagePullSecret, and Proxy Overrides ...")
     deploy = open(deployment, "r")
     lines = deploy.readlines()
     for i, line in enumerate(lines):
@@ -322,6 +322,12 @@ def injectHelmFlowControl(deployment):
             lines[i] = """{{- with .Values.hubconfig.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
+{{- end }}
+"""
+        if line.strip() == "imagePullSecrets: \'\'":
+            lines[i] = """{{- if .Values.global.pullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.pullSecret }}
 {{- end }}
 """
         if line.strip() == "env:" or line.strip() == "env: {}":
@@ -364,6 +370,7 @@ def updateDeployments(helmChart):
         deploy['spec']['template']['spec']['securityContext']['runAsNonRoot'] = True
         deploy['spec']['template']['metadata']['labels']['ocm-antiaffinity-selector'] = deploy['metadata']['name']
         deploy['spec']['template']['spec']['nodeSelector'] = ""
+        deploy['spec']['template']['spec']['imagePullSecrets'] = ""
 
         containers = deploy['spec']['template']['spec']['containers']
         for container in containers:
