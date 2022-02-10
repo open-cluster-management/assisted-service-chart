@@ -330,6 +330,9 @@ def injectHelmFlowControl(deployment):
       - name: {{ .Values.global.pullSecret }}
 {{- end }}
 """
+        if line.strip() == "tolerations: {}":
+            lines[i] = "      tolerations: {{ toYaml .Values.hubconfig.tolerations | nindent 8 }}"
+            
         if line.strip() == "env:" or line.strip() == "env: {}":
             lines[i] = """        env:
 {{- if .Values.hubconfig.proxyConfigs }}
@@ -361,7 +364,7 @@ def updateDeployments(helmChart):
         for antiaffinity in affinityList:
             antiaffinity['podAffinityTerm']['labelSelector']['matchExpressions'][0]['values'][0] = deploy['metadata']['name']
         deploy['spec']['template']['spec']['affinity'] = deploySpec['affinity']
-        deploy['spec']['template']['spec']['tolerations'] = deploySpec['tolerations']
+        deploy['spec']['template']['spec']['tolerations'] = {}
         deploy['spec']['template']['spec']['hostNetwork'] = False
         deploy['spec']['template']['spec']['hostPID'] = False
         deploy['spec']['template']['spec']['hostIPC'] = False
