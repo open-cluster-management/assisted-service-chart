@@ -116,4 +116,7 @@ spec:
         runAsNonRoot: true
       serviceAccountName: assisted-service
       terminationGracePeriodSeconds: 10
-      tolerations: {{ toYaml .Values.hubconfig.tolerations | nindent 8 }}
+{{- with .Values.hubconfig.tolerations }}
+      tolerations:
+{{- toYaml . | nindent 8 }}
+{{- end }}
