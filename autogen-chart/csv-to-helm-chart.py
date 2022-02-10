@@ -331,7 +331,10 @@ def injectHelmFlowControl(deployment):
 {{- end }}
 """
         if line.strip() == "tolerations: {}":
-            lines[i] = "      tolerations: {{ toYaml .Values.hubconfig.tolerations | nindent 8 }}"
+            lines[i] = """{{- with .Values.hubconfig.tolerations }}
+      tolerations:
+{{- toYaml . | nindent 8 }}
+{{- end }}"""
             
         if line.strip() == "env:" or line.strip() == "env: {}":
             lines[i] = """        env:
