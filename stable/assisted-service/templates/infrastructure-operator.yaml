@@ -116,10 +116,4 @@ spec:
         runAsNonRoot: true
       serviceAccountName: assisted-service
       terminationGracePeriodSeconds: 10
-      tolerations:
-      - effect: NoSchedule
-        key: dedicated
-        operator: Exists
-      - effect: NoSchedule
-        key: node-role.kubernetes.io/infra
-        operator: Exists
+      tolerations: {{ toYaml .Values.hubconfig.tolerations | nindent 8 }}
