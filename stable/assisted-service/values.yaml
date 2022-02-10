@@ -12,4 +12,11 @@ hubconfig:
   nodeSelector: null
   proxyConfigs: {}
   replicaCount: 1
+  tolerations:
+  - effect: NoSchedule
+    key: dedicated
+    operator: Exists
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/infra
+    operator: Exists
 org: open-cluster-management
